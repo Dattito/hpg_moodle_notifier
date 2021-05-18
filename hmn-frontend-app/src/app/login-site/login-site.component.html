@@ -1,0 +1,6 @@
+<h1 class="text-center mb-3" [ngClass]="{'text-danger': logout}">{{logout ? "Abmelden": "Anmelden"}}</h1>
+<small class="text-muted">Wenn du wissen willst, wie der HPG Moodle Notifier funktioniert, kannst du dich 
+    <a routerLink="/how-it-works">hier</a> informieren.
+  </small>
+
+<app-registration-form [logout]="logout"></app-registration-form>

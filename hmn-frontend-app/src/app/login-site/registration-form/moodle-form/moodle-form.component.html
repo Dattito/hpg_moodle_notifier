@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <div class="form-group">
+      <label for="username">Moodle-Benutzername</label>
+      <input type="text" class="form-control" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+        <div *ngIf="f.username.errors.required">Feld muss ausgefüllt sein.</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Moodle-Passwort</label>
+      <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Feld muss ausgefüllt sein.</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        <span *ngIf="loading; else notLoading">Lädt...</span>
+        <ng-template #notLoading>Weiter</ng-template>
+    </button>
+  </form>

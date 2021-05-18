@@ -1,0 +1,60 @@
+basePath: /
+definitions:
+  endpoints.CreateSignalVerificationResponse:
+    properties:
+      error:
+        type: boolean
+      id:
+        type: string
+    type: object
+  endpoints.HTTPError:
+    properties:
+      error:
+        type: boolean
+      msg:
+        type: string
+    type: object
+host: 192.168.178.10:3000
+info:
+  contact: {}
+  description: Register or Delete oneself from the HMN list
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: HMN Backend API
+  version: "1.0"
+paths:
+  /v1/signalVerification:
+    post:
+      consumes:
+      - application/json
+      description: get ID of the verification-row to check later if code is correct
+      parameters:
+      - description: Phone Number of user (in e164 format!)
+        in: path
+        name: phone_number
+        required: true
+        type: string
+      - description: Moodle Token the user wants to register
+        in: path
+        name: moodle_token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endpoints.CreateSignalVerificationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/endpoints.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/endpoints.HTTPError'
+      summary: Verify PhoneNumber in Signal
+swagger: "2.0"

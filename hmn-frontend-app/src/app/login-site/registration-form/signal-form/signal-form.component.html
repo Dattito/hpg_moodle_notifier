@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <div class="form-group">
+      <label for="phoneNumber">Telefon-Nummer</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">+49</div>
+        </div>
+        <input aria-describedby="phoneNumberHelp" type="number" class="form-control" formControlName="phoneNumber" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+        
+      </div>
+      <small id="phoneNumberHelp" class="form-text text-muted">Du bekommst eine Nachricht mit einem Code über 
+        <a href="https://signal.org/download/" target="_blank" rel="noopener noreferrer">Signal</a>. 
+        Lies <a routerLink="/how-it-works">hier</a> mehr
+      </small>
+      <div *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
+        <div *ngIf="f.phoneNumber.errors.required">Feld muss ausgefüllt sein.</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="loading" [ngClass]="{'btn-success': enterVerificationCode}">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        <span *ngIf="loading; else notLoading">Senden... (dauert etwas)</span>
+        <ng-template #notLoading>Verifizierungs-Code senden</ng-template>
+    </button>
+    <div *ngIf="enterVerificationCode">
+      <small class="form-text text-muted">Verifizierungs-Code wurde über Signal gesendet!</small>
+    </div>
+  </form>
+
+<div class="mt-3" *ngIf="enterVerificationCode">
+  <app-verification-form [verificationID]="verificationID" [logout]="logout" (onSuccess)="onVerificationCodeSuccess()"></app-verification-form>
+</div>

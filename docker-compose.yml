@@ -1,0 +1,122 @@
+version: "3"
+
+services: 
+    postgres_db:
+        image: arm32v7/postgres:13.0
+        environment:
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        networks:
+            - db
+        volumes:
+            #- ./VOLUMES/database_data:/var/run/lib/postgresql/data
+            - HMN_postgres_db:/var/run/lib/postgresql/data/pgdata
+        ports:
+            - 5432:5432
+        restart: unless-stopped
+
+    pgbackups:
+        image: prodrigestivill/postgres-backup-local:13
+        restart: unless-stopped
+        user: postgres:postgres
+        networks:
+            - db
+        volumes:
+            - ./VOLUMES/database_backups:/backups
+        # DIRECTORY HAS TO BE INIZIALIZED AS
+        # mkdir -p VOLUMES/database_backups && chown -R 999:999 VOLUMES/database_backups
+        links:
+            - postgres_db
+        depends_on:
+            - postgres_db
+        environment:
+            - POSTGRES_HOST=postgres_db
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+    signal_rest_api:
+        # FOR REGISTRATION: https://bbernhard.github.io/signal-cli-rest-api/
+        build: signal-cli-rest-api # image: bbernhard/signal-cli-rest-api:latest 
+        volumes:
+            - ./VOLUMES/signal_data:/home/.local/share/signal-cli
+        restart: unless-stopped
+        labels:
+            - com.centurylinklabs.watchtower.enable=false
+        ports:
+            - 8084:8080
+        networks:
+            - signal_rest_api
+
+    moodle_updater:
+        build: moodle_updater
+        networks:
+            - db
+            - signal_rest_api
+        environment:
+            - TZ=Europe/Berlin
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_HOST=postgres_db
+            - SIGNAL_HOST=http://signal_rest_api:8080
+            - SIGNAL_NUMBER=${SIGNAL_NUMBER}
+            - MOODLE_HOST=${MOODLE_HOST}
+            - UPDATE_CRONTAB=*/15 6-21 * * *
+            - UPDATE_ON_START=1
+            - SYNC_TABLES=0
+            - NO_SCHEDULER=0
+        volumes:
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+        restart: unless-stopped
+        depends_on:
+            - postgres_db
+            - signal_rest_api
+        labels:
+            - com.centurylinklabs.watchtower.enable=false
+    
+    backend_api:
+        build: backend_api
+        restart: unless-stopped
+        environment: 
+            - DB_SERVER_URL=host=postgres_db user=postgres password=${POSTGRES_PASSWORD} dbname=postgres port=5432 sslmode=disable
+            - MOODLE_HOST=${MOODLE_HOST}
+            - SIGNAL_HOST=http://signal_rest_api:8080
+            - SIGNAL_NUMBER=${SIGNAL_NUMBER}
+            - CORS=0
+        networks:
+            - traefik_traefikx
+            - db
+            - signal_rest_api
+        ports:
+            - 3000:3000
+        labels:
+            - com.centurylinklabs.watchtower.enable=false
+            - traefik.enable=true
+            - traefik.http.routers.hmn_backend_api.rule=(Host(`hmn.datti.to`) && PathPrefix(`/api/`))
+            - traefik.http.routers.hmn_backend_api.entryPoints=web-secure
+            - traefik.http.routers.hmn_backend_api.tls.certResolver=cloudflare
+            - traefik.http.middlewares.strip_api.stripprefix.prefixes=/api
+            - traefik.http.routers.hmn_backend_api.middlewares=strip_api
+        depends_on:
+            - postgres_db
+            
+    frontend_app:
+        build: hmn-frontend-app
+        restart: unless-stopped
+        labels:
+            - com.centurylinklabs.watchtower.enable=false
+            - traefik.enable=true
+            - traefik.http.routers.hmn_frontend_app.rule=Host(`hmn.datti.to`)
+            - traefik.http.routers.hmn_frontend_app.entryPoints=web-secure
+            - traefik.http.routers.hmn_frontend_app.tls.certResolver=cloudflare
+        networks:
+            - traefik_traefikx
+            
+volumes: 
+    HMN_postgres_db:
+        external: true
+
+networks:
+    traefik_traefikx:
+        external: true
+    db:
+    signal_rest_api:

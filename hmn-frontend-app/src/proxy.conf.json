@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "https://hmn.datti.to",
+        "logLevel": "debug",
+        "secure": true,
+        "changeOrigin": true
+    }
+}

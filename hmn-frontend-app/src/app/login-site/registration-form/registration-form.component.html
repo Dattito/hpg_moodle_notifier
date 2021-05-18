@@ -1,0 +1,43 @@
+<!--
+<div class="card">
+  <ul ngbNav #nav="ngbNav" class="nav-tabs" [(activeId)]="activeTab">
+    <li [ngbNavItem]="1" [disabled]="navDisabled">
+      <a ngbNavLink>1. Moodle-Account verknüpfen</a>
+      <ng-template ngbNavContent><app-moodle-form></app-moodle-form></ng-template>
+    </li>
+    <li [ngbNavItem]="2" [disabled]="navDisabled">
+      <a ngbNavLink>2. Signal-Account verknüpfen</a>
+      <ng-template ngbNavContent><app-signal-form></app-signal-form></ng-template>
+    </li>
+    <li [ngbNavItem]="3" [disabled]="navDisabled">
+      <a ngbNavLink>3. Registrierung abgeschlossen.</a>
+      <ng-template ngbNavContent>Alright</ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div> -->
+
+
+<div class="card">
+  <div class="card-header">1) Moodle-Account verknüpfen</div>
+  <div class="div card-body" *ngIf="activeTab == 1">
+    <app-moodle-form  (receiveMoodleToken)="onReceiveMoodleToken($event)"></app-moodle-form>
+  </div>
+</div>
+
+<div class="card mt-1">
+  <div class="card-header">2) Signal-Account verknüpfen</div>
+  <div class="div card-body" *ngIf="activeTab == 2">
+    <app-signal-form  [moodleToken]="moodleToken" [logout]="logout" (onSuccess)="onSignalVerificationSuccess()"></app-signal-form>
+  </div>
+</div>
+
+<div class="card mt-1">
+  <div class="card-header">3) {{logout ? "Abgemeldet & Gelöscht" : "Registrierung abgeschlossen!"}}</div>
+  <div class="div card-body" *ngIf="activeTab == 3">
+    <div class="text-center"><h3 class="text-success">Fertig!</h3>
+      <span *ngIf="logout; else loginSuccessText"><h5>Von nun an bekommst du keine Benachrichtigung mehr, dein Account wurde gelöscht.</h5></span>
+      <ng-template #loginSuccessText><h5>Von nun an bekommst du eine Benachrichtigung über Signal, wenn du neue Aufgaben hast.</h5></ng-template>
+    </div>
+  </div>
+</div>

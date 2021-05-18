@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">HPG Moodle Notifier</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul ngbNav class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li ngbNavItem>
+          <a ngbNavLink routerLink="login" [routerLinkActive]="['active']">Anmelden</a>
+        </li>
+        <li ngbDropdown ngbNavItem>
+          <a ngbDropdownToggle class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Weiteres
+          </a>
+          <ul ngbDropdownMenu  class="dropdown-menu" (click)="isNavbarCollapsed = true">
+            <li><a ngbDropdownItem routerLink="/how-it-works" [routerLinkActive]="['active']">Wie es funktioniert</a></li>
+            <li><a ngbDropdownItem routerLink="/privacy" [routerLinkActive]="['active']">Privatsphäre</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a ngbDropdownItem [routerLink]="['/login']" [queryParams]="{logout: true}" [routerLinkActive]="['active']">Abmelden</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

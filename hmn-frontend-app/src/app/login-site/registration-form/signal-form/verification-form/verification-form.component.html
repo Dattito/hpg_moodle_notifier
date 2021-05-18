@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+    <div class="form-group">
+      <label for="verificationCode">Verifizierungs-Code</label>
+      <input type="number" class="form-control" formControlName="verificationCode" [ngClass]="{ 'is-invalid': submitted && f.verificationCode.errors }">
+      <div *ngIf="submitted && f.verificationCode.errors" class="invalid-feedback">
+        <div *ngIf="f.verificationCode.errors.required">Feld muss ausgefüllt sein.</div>
+        <div *ngIf="f.verificationCode.errors.min || f.verificationCode.errors.max">Code ungültig.</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        <span *ngIf="loading; else notLoading">Lädt...</span>
+        <ng-template #notLoading>{{ logout ? "Abmelden": "Registrierung abschließen"}}</ng-template>
+    </button>
+  </form>
