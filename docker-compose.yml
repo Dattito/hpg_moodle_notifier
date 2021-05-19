@@ -36,7 +36,7 @@ services:
 
     signal_rest_api:
         # FOR REGISTRATION: https://bbernhard.github.io/signal-cli-rest-api/
-        build: signal-cli-rest-api # image: bbernhard/signal-cli-rest-api:latest 
+        build: signal-cli-rest-api # image: bbernhard/signal-cli-rest-api:latest
         volumes:
             - ./VOLUMES/signal_data:/home/.local/share/signal-cli
         restart: unless-stopped
