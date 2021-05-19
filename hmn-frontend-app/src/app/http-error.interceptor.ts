@@ -21,15 +21,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
      .pipe(
        catchError((err: HttpErrorResponse) => {
-
         let errorMessage = '';
         if (err.error instanceof ErrorEvent) {
           // client-side error
           errorMessage = `Etwas ist schiefgelaufen.`;
         } else {
           // server-side error
-          errorMessage = err.error["msg"];
+          errorMessage = err.error["msg"] || `Etwas ist schiefgelaufen.`;
         }
+        console.error(err)
         this.alert.error(errorMessage);
 
         const error = err.error?.message || err.statusText;
