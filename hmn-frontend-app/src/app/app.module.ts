@@ -20,6 +20,7 @@ import { AlertService } from './alert.service';
 import { AlertComponent } from './alert/alert.component';
 import { VerificationFormComponent } from './login-site/registration-form/signal-form/verification-form/verification-form.component';
 import { NgbCollapseModule, NgbDropdownModule, NgbNavbar, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContactSiteComponent } from './contact-site/contact-site.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NgbCollapseModule, NgbDropdownModule, NgbNavbar, NgbNavModule } from '@
     MoodleFormComponent,
     SignalFormComponent,
     AlertComponent,
-    VerificationFormComponent
+    VerificationFormComponent,
+    ContactSiteComponent
   ],
   imports: [
     BrowserModule,

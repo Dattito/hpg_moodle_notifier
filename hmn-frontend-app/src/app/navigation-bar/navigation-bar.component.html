@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">HPG Moodle Notifier</a>
+    <a class="navbar-brand" routerLink="/">
+      <img src="/assets/datti.to.svg" alt="" height="30"  class="d-inline-block align-text-top">
+      HPG Moodle Notifier</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
   </button>
@@ -16,6 +18,7 @@
           <ul ngbDropdownMenu  class="dropdown-menu" (click)="isNavbarCollapsed = true">
             <li><a ngbDropdownItem routerLink="/how-it-works" [routerLinkActive]="['active']">Wie es funktioniert</a></li>
             <li><a ngbDropdownItem routerLink="/privacy" [routerLinkActive]="['active']">Privatsphäre</a></li>
+            <li><a ngbDropdownItem routerLink="/contact" [routerLinkActive]="['active']">Kontakt</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a ngbDropdownItem [routerLink]="['/login']" [queryParams]="{logout: true}" [routerLinkActive]="['active']">Abmelden</a></li>
           </ul>

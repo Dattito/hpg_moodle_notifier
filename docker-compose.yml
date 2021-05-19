@@ -91,7 +91,7 @@ services:
         labels:
             - com.centurylinklabs.watchtower.enable=false
             - traefik.enable=true
-            - traefik.http.routers.hmn_backend_api.rule=(Host(`hmn.datti.to`) && PathPrefix(`/api/`))
+            - traefik.http.routers.hmn_backend_api.rule=(Host(`hmn.${HOST_URL}`) && PathPrefix(`/api/`))
             - traefik.http.routers.hmn_backend_api.entryPoints=web-secure
             - traefik.http.routers.hmn_backend_api.tls.certResolver=cloudflare
             - traefik.http.middlewares.strip_api.stripprefix.prefixes=/api
@@ -105,7 +105,7 @@ services:
         labels:
             - com.centurylinklabs.watchtower.enable=false
             - traefik.enable=true
-            - traefik.http.routers.hmn_frontend_app.rule=Host(`hmn.datti.to`)
+            - traefik.http.routers.hmn_frontend_app.rule=Host(`hmn.${HOST_URL}`)
             - traefik.http.routers.hmn_frontend_app.entryPoints=web-secure
             - traefik.http.routers.hmn_frontend_app.tls.certResolver=cloudflare
         networks:
