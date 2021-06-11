@@ -8,7 +8,7 @@ import { GetMoodleTokenResponse, PostAssignmentResponse, PostSignalVerificationR
 })
 export class HmnBackendService {
 
-  readonly hmnBackendUrl = "https://hmn.dattio.to/api"
+  readonly hmnBackendUrl = "https://hmn.datti.to/api"
 
   constructor(private http: HttpClient) { }
 
