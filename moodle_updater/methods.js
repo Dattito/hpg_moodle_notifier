@@ -83,7 +83,7 @@ function textFromAssignmentIds(assignmentIds, rawAssignments) {
         for (let a in assignmentIds) {
             let ex = `\n`;
             if (a == assignmentIds.length) {
-                ex == '';
+                
             }
             c = c + subjects[assignmentIds[a].toString()] + ex;
         }
