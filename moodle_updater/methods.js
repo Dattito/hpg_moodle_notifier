@@ -28,8 +28,7 @@ async function updateAssignmentsWithSend(token) {
     
     let newAssignments = moodle.getAssignmentIdsByRawAssignments(newRawAssignments);
 
-    let difference;
-    difference = a.assignments ? newAssignments.filter(x => !a.assignments.includes(x)) : newAssignments;
+    const difference = a.assignments ? newAssignments.filter(x => !a.assignments.includes(x)) : newAssignments;
 
     if (difference.length){
         // Send Signal notification
