@@ -1,0 +1,20 @@
+version = 1
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["angular"]
+
+[[analyzers]]
+name = "go"
+enabled = true
+
+  [analyzers.meta]
+  import_root = "github.com/Dattito/hpg_notifiers"
+  dependencies_vendored = false
+
+[[analyzers]]
+name = "docker"
+enabled = true
